@@ -1,13 +1,15 @@
 package uk.gov.ons.mdr.io.sequence
 
-import java.util.Date
 import java.util.zip.ZipFile
 
 import com.google.common.io.ByteStreams
+import org.slf4j.{LoggerFactory, Logger}
 
 import scala.collection.JavaConversions._
 
 class ZipReader(file: String) {
+
+  def logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   def iterator(): Iterator[FileData] = {
     val zipFile = new ZipFile(file)
@@ -19,11 +21,11 @@ class ZipReader(file: String) {
       FileData(entry.getName, bytes)
     }
 
-    val loggingIterator = for ((p, c) <- zipIterator.zipWithIndex) yield {
-      if (c % 1000 == 0) {
-        println(s"${new Date()} File iterator at $c")
+    val loggingIterator = for ((fileData, index) <- zipIterator.zipWithIndex) yield {
+      if (index % 1000 == 0) {
+        logger.info(s"zip iterator for ${zipFile.getName} at entry $index")
       }
-      p
+      fileData
     }
 
     loggingIterator

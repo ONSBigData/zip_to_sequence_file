@@ -1,8 +1,14 @@
 package uk.gov.ons.mdr.io.sequence
 
+import org.slf4j.{Logger, LoggerFactory}
+
 object ZipToSequence {
 
+  def logger: Logger = LoggerFactory.getLogger(this.getClass)
+
   def zipToSingleSequence(config: Config): Unit = {
+
+    logger.info("Creating a single sequence file")
 
     var zipReader = createZipReader(config)
 
@@ -13,6 +19,8 @@ object ZipToSequence {
   }
 
   def zipToRollingSequence(config: Config): Unit = {
+
+    logger.info("Creating multiple sequence files")
 
     var zipReader = createZipReader(config)
 

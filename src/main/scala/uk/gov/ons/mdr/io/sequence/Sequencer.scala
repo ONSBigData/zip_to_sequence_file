@@ -1,5 +1,7 @@
 package uk.gov.ons.mdr.io.sequence
 
+import org.slf4j.{Logger, LoggerFactory}
+import ch.qos.logback.classic.Logger
 import scopt.OptionParser
 
 object Sequencer {
@@ -58,10 +60,8 @@ object Sequencer {
         case Some(config) =>
 
           if (config.singleFileMode) {
-            println("Creating a single sequence file")
             ZipToSequence.zipToSingleSequence(config)
           } else {
-            println("Creating multiple sequence files")
             ZipToSequence.zipToRollingSequence(config)
           }
 

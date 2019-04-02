@@ -2,6 +2,7 @@ package uk.gov.ons.mdr.io.sequence
 
 import org.apache.hadoop.io.SequenceFile.Writer
 import org.apache.hadoop.io.{BytesWritable, Text}
+import org.slf4j.{Logger, LoggerFactory}
 
 trait SequenceWriter extends java.io.Closeable {
   def write(fileData: FileData): Unit
@@ -10,6 +11,8 @@ trait SequenceWriter extends java.io.Closeable {
 class RollingSequenceWriter(fileName: String, byteThreshold: Long) extends SequenceWriter {
 
   this: WriterFactory =>
+
+  def logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   private var currentFileIndex = 1
   private var bytesWritten = 0L
@@ -24,7 +27,7 @@ class RollingSequenceWriter(fileName: String, byteThreshold: Long) extends Seque
     writer.close()
     bytesWritten = 0L
 
-    println(s"Rolling file, new output ${currentFileName()}")
+    logger.info(s"Rolling file, new output ${currentFileName()}")
     createWriter(currentFileName())
   }
 
