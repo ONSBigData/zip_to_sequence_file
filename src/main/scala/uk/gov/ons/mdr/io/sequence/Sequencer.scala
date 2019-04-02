@@ -1,7 +1,5 @@
 package uk.gov.ons.mdr.io.sequence
 
-import org.slf4j.{Logger, LoggerFactory}
-import ch.qos.logback.classic.Logger
 import scopt.OptionParser
 
 object Sequencer {

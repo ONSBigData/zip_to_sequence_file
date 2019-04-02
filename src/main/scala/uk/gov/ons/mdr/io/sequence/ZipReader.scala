@@ -3,7 +3,7 @@ package uk.gov.ons.mdr.io.sequence
 import java.util.zip.ZipFile
 
 import com.google.common.io.ByteStreams
-import org.slf4j.{LoggerFactory, Logger}
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConversions._
 
