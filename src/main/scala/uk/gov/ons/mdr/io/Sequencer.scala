@@ -1,27 +1,51 @@
 package uk.gov.ons.mdr.io
 
+import scopt.OptionParser
+
 
 object Sequencer {
 
-  case class Config(sourceFile: String = "", targetDir: String = ".")
+  private def parseMemoryString(memoryString: String): Long = {
 
-  private val parser = new scopt.OptionParser[Config](programName = "sequencer") {
+      val GigabytePattern = "([0-9\\.]+)g".r
+      val MegabytePattern = "([0-9\\.]+)m".r
+      val KilobytePattern = "([0-9\\.]+)k".r
+      val BytePattern = "([0-9\\.]+)b".r
+
+      memoryString match {
+        case GigabytePattern(digits) => (1000000000L * digits.toDouble).toLong
+        case MegabytePattern(digits) => (1000000L * digits.toDouble).toLong
+        case KilobytePattern(digits) => (1000L * digits.toDouble).toLong
+        case BytePattern(digits) => digits.toLong
+      }
+    }
+
+
+  private val parser: OptionParser[Config] = new scopt.OptionParser[Config](programName = "sequencer") {
 
     val defaultConfig = Config()
 
-    val helpText = """Commandline utility to convert zip archives into Hadoop Sequence files."""
+    val helpText = """Command line utility to convert zip archives into Hadoop Sequence files."""
 
     head(xs = s"sequencer\n\n$helpText\n")
 
-    opt[String]('s', name = "source")
-      .valueName("<file>")
-      .action((x, c) => c.copy(sourceFile = x))
-      .text("Zip archive for conversion")
-
     opt[String]('t', name = "target")
-      .valueName("<file>")
+      .valueName("<dir>")
       .action((x, c) => c.copy(targetDir = x))
       .text(s"Target directory for sequence file creation, default: ${defaultConfig.targetDir}")
+
+    opt[Unit]('s', "singleFileMode")
+      .action( (_, c) => c.copy(singleFileMode = true) )
+      .text("Flag to run in singleFileMode")
+
+    opt[String]('b', name = "batchSize")
+        .valueName("<string>")
+        .action((x, c) => c.copy(targetBytes = parseMemoryString(x)))
+        .text("When not in singleFileMode controls the batch size for the sequence file (e.g. 200m, 1g)")
+
+    arg[String]("<zip_file>")
+        .action((x, c) => c.copy(sourceFile = x))
+        .text("Zip archive for conversion")
 
     help(name = "help").text("Show help text")
   }
@@ -34,10 +58,14 @@ object Sequencer {
     } else {
       parser.parse(args, init = Config()) match {
         case Some(config) =>
-          println("Config received")
 
-          println(s"sourceFile ${config.sourceFile}")
-          println(s"targetDir ${config.targetDir}")
+          if (config.singleFileMode) {
+            println("Creating a single sequence file")
+            ZipToSequence.zipToSingleSequence(config)
+          } else {
+            println("Creating multiple sequence files")
+            ZipToSequence.zipToRollingSequence(config)
+          }
 
         case None =>
           parser.reportError(msg = "No options set")
