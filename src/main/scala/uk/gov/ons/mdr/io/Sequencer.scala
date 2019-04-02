@@ -2,7 +2,6 @@ package uk.gov.ons.mdr.io
 
 import scopt.OptionParser
 
-
 object Sequencer {
 
   private def parseMemoryString(memoryString: String): Long = {
@@ -19,7 +18,6 @@ object Sequencer {
         case BytePattern(digits) => digits.toLong
       }
     }
-
 
   private val parser: OptionParser[Config] = new scopt.OptionParser[Config](programName = "sequencer") {
 

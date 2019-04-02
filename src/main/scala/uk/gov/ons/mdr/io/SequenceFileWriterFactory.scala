@@ -24,5 +24,4 @@ trait SequenceFileWriterFactory extends WriterFactory {
       Writer.valueClass(classOf[BytesWritable]),
       Writer.compression(CompressionType.NONE))
   }
-
 }

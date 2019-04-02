@@ -20,7 +20,6 @@ class RollingSequenceWriter(fileName: String, byteThreshold: Long) extends Seque
 
   private def roll(): Writer = {
 
-
     currentFileIndex += 1
     writer.close()
     bytesWritten = 0L
@@ -48,5 +47,4 @@ class RollingSequenceWriter(fileName: String, byteThreshold: Long) extends Seque
   override def close(): Unit = {
     writer.close()
   }
-
 }

@@ -28,5 +28,4 @@ class ZipReader(file: String) {
 
     loggingIterator
   }
-
 }
