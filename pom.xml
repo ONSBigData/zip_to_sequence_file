@@ -116,7 +116,7 @@
           <appendAssemblyId>false</appendAssemblyId>
           <archive>
             <manifest>
-              <mainClass>uk.gov.ons.mdr.io.Sequencer</mainClass>
+              <mainClass>uk.gov.ons.mdr.io.sequence.Sequencer</mainClass>
             </manifest>
           </archive>
         </configuration>

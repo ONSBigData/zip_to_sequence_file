@@ -1,9 +1,9 @@
-package uk.gov.ons.mdr.io
+package uk.gov.ons.mdr.io.sequence
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs
-import org.apache.hadoop.io.{BytesWritable, SequenceFile, Text}
 import org.apache.hadoop.io.SequenceFile.{CompressionType, Writer}
+import org.apache.hadoop.io.{BytesWritable, SequenceFile, Text}
 
 trait WriterFactory {
   def createWriter(fileName: String): Writer

@@ -1,4 +1,4 @@
-package uk.gov.ons.mdr.io
+package uk.gov.ons.mdr.io.sequence
 
 import scopt.OptionParser
 

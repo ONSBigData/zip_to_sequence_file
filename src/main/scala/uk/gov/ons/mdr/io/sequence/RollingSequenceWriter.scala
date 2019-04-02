@@ -1,7 +1,7 @@
-package uk.gov.ons.mdr.io
+package uk.gov.ons.mdr.io.sequence
 
-import org.apache.hadoop.io.{BytesWritable, Text}
 import org.apache.hadoop.io.SequenceFile.Writer
+import org.apache.hadoop.io.{BytesWritable, Text}
 
 trait SequenceWriter extends java.io.Closeable {
   def write(fileData: FileData): Unit
