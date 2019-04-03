@@ -35,7 +35,7 @@ object Sequencer {
     opt[SequenceOutputDir]('t', name = "target")
       .valueName("<dir>")
       .action((x, c) => c.copy(targetDir = x))
-      .text(s"Target directory for sequence file creation, default: ${defaultConfig.targetDir}")
+      .text(s"Target directory for sequence file creation, default: ${defaultConfig.targetDir.path}")
 
     opt[Unit]('s', "singleFileMode")
       .action( (_, c) => c.copy(singleFileMode = true) )

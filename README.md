@@ -6,7 +6,7 @@ To build:
 
 ```mvn package```
 
-The utility is packaged as a jar file: `sequencer.jar`.
+The utility is packaged as a jar file: `sequencer.jar`
 
 
 ```
@@ -14,7 +14,7 @@ Usage: java -jar sequencer.jar [options] <zip_file>
 
 e.g. java -jar sequencer.jar -s some_archive.zip
 
-  -t, --target <dir>       Target directory for sequence file creation, default: SequenceOutputDir(.)
+  -t, --target <dir>       Target directory for sequence file creation, default: .
   -s, --singleFileMode     Flag to run in singleFileMode
   -b, --batchSize <string>
                            When not in singleFileMode controls the batch size for the sequence file (e.g. 200m, 1g)
