@@ -39,12 +39,12 @@ object Sequencer {
 
     opt[Unit]('s', "singleFileMode")
       .action( (_, c) => c.copy(singleFileMode = true) )
-      .text("Flag to run in singleFileMode")
+      .text("Flag to produce a single sequence file (switches off batch mode)")
 
     opt[String]('b', name = "batchSize")
         .valueName("<string>")
         .action((x, c) => c.copy(targetBytes = parseMemoryString(x)))
-        .text("When not in singleFileMode controls the batch size for the sequence file (e.g. 200m, 1g)")
+        .text("Approximate sequence batch size (e.g. 200m, 1g)")
 
     implicit val zipInputFileRead: scopt.Read[ZipInputFile] =
       scopt.Read.reads[ZipInputFile](path => ZipInputFile(Paths.get(path)))
