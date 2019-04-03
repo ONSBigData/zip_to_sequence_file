@@ -21,7 +21,7 @@ object Sequencer {
       }
     }
 
-  private val parser: OptionParser[Config] = new scopt.OptionParser[Config](programName = "sequencer") {
+  private val parser: OptionParser[Config] = new scopt.OptionParser[Config](programName = "java -jar sequencer.jar") {
 
     val defaultConfig = Config()
 

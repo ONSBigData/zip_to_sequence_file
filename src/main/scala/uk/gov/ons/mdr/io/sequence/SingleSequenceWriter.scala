@@ -9,12 +9,12 @@ class SingleSequenceWriter(sequenceOutputDir: SequenceOutputDir, zipInputFile: Z
 
   this: WriterFactory =>
 
-  val dirString = sequenceOutputDir.path.toString
-  val outFileName = zipInputFile.path.getFileName.toString.stripSuffix(".zip") + ".seq"
+  private[this] val dirString = sequenceOutputDir.path.toString
+  private[this] val outFileName = zipInputFile.path.getFileName.toString.stripSuffix(".zip") + ".seq"
 
   val outPath = Paths.get(dirString, outFileName)
 
-  private var writer = createWriter(outPath)
+  private[this] var writer = createWriter(outPath)
 
   override def write(fileData: FileData): Unit = {
     writer.append(new Text(fileData.name), new BytesWritable(fileData.content))

@@ -18,19 +18,19 @@ class RollingSequenceWriter(sequenceOutputDir: SequenceOutputDir,
 
   def logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-  private var currentFileIndex = 1
-  private var bytesWritten = 0L
+  private[this] var currentFileIndex = 1
+  private[this] var bytesWritten = 0L
 
-  def currentPath(): Path = {
+  private[this] def currentPath(): Path = {
     val dir = sequenceOutputDir.path.toString
     val fileName = zipInputFile.path.getFileName.toString.stripSuffix(".zip") + f"_$currentFileIndex%02d.seq"
 
     Paths.get(dir, fileName)
   }
 
-  private var writer = createWriter(currentPath())
+  private[this] var writer = createWriter(currentPath())
 
-  private def roll(): Writer = {
+  private[this] def roll(): Writer = {
 
     currentFileIndex += 1
     writer.close()
