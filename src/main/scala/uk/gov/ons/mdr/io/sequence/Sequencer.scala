@@ -1,6 +1,5 @@
 package uk.gov.ons.mdr.io.sequence
 
-import java.io.File
 import java.nio.file.Paths
 
 import scopt.OptionParser
