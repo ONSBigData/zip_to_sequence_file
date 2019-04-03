@@ -1,6 +1,7 @@
 package uk.gov.ons.mdr.io.sequence
 
 import java.io.File
+import java.nio.file.Paths
 
 import scopt.OptionParser
 
@@ -30,7 +31,7 @@ object Sequencer {
     head(xs = s"sequencer\n\n$helpText\n")
 
     implicit val sequenceOutputDirRead: scopt.Read[SequenceOutputDir] =
-      scopt.Read.reads[SequenceOutputDir](f => SequenceOutputDir(new File(f)))
+      scopt.Read.reads[SequenceOutputDir](path => SequenceOutputDir(Paths.get(path)))
 
     opt[SequenceOutputDir]('t', name = "target")
       .valueName("<dir>")
@@ -47,7 +48,7 @@ object Sequencer {
         .text("When not in singleFileMode controls the batch size for the sequence file (e.g. 200m, 1g)")
 
     implicit val zipInputFileRead: scopt.Read[ZipInputFile] =
-      scopt.Read.reads[ZipInputFile](f => ZipInputFile(new File(f)))
+      scopt.Read.reads[ZipInputFile](path => ZipInputFile(Paths.get(path)))
 
     arg[ZipInputFile]("<zip_file>")
         .action((x, c) => c.copy(sourceFile = x))

@@ -31,7 +31,7 @@ object ZipToSequence {
   }
 
   private def createZipReader(config: Config): ZipReader = {
-    new ZipReader(config.sourceFile.file.getPath)
+    new ZipReader(config.sourceFile.path)
   }
 
   private def convert(zipReader: ZipReader, writer: SequenceWriter): Unit = {

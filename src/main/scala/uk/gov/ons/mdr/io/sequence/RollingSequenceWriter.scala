@@ -1,5 +1,7 @@
 package uk.gov.ons.mdr.io.sequence
 
+import java.nio.file.{Path, Paths}
+
 import org.apache.hadoop.io.SequenceFile.Writer
 import org.apache.hadoop.io.{BytesWritable, Text}
 import org.slf4j.{Logger, LoggerFactory}
@@ -19,9 +21,14 @@ class RollingSequenceWriter(sequenceOutputDir: SequenceOutputDir,
   private var currentFileIndex = 1
   private var bytesWritten = 0L
 
-  def currentFileName(): String = f"${zipInputFile.file.getName.stripSuffix(".zip")}_$currentFileIndex%02d.seq"
+  def currentPath(): Path = {
+    val dir = sequenceOutputDir.path.toString
+    val fileName = zipInputFile.path.getFileName.toString.stripSuffix(".zip") + f"_$currentFileIndex%02d.seq"
 
-  private var writer = createWriter(currentFileName())
+    Paths.get(dir, fileName)
+  }
+
+  private var writer = createWriter(currentPath())
 
   private def roll(): Writer = {
 
@@ -29,8 +36,10 @@ class RollingSequenceWriter(sequenceOutputDir: SequenceOutputDir,
     writer.close()
     bytesWritten = 0L
 
-    logger.info(s"Rolling file, new output ${currentFileName()}")
-    createWriter(sequenceOutputDir.file.getPath + "/" + currentFileName())
+    val nextPath = currentPath()
+
+    logger.info(s"Rolling file, new output $nextPath")
+    createWriter(nextPath)
   }
 
   override def write(fileData: FileData): Unit = {
