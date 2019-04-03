@@ -1,12 +1,18 @@
 package uk.gov.ons.mdr.io.sequence
 
+
 import org.apache.hadoop.io.{BytesWritable, Text}
 
-class SingleSequenceWriter(dirPath: String, sourceFile: String) extends SequenceWriter {
+class SingleSequenceWriter(sequenceOutputDir: SequenceOutputDir, zipInputFile: ZipInputFile) extends SequenceWriter {
 
   this: WriterFactory =>
 
-  private var writer = createWriter(s"$dirPath/${sourceFile.stripSuffix(".zip")}.seq")
+  val dirString = sequenceOutputDir.file.getPath
+  val outFileName = zipInputFile.file.getName.stripSuffix(".zip") + ".seq"
+
+  val outPath = dirString + "/" + outFileName
+
+  private var writer = createWriter(outPath)
 
   override def write(fileData: FileData): Unit = {
     writer.append(new Text(fileData.name), new BytesWritable(fileData.content))

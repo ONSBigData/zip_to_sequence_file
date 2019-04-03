@@ -25,14 +25,13 @@ object ZipToSequence {
     var zipReader = createZipReader(config)
 
     var rollingSequenceWriter = new RollingSequenceWriter(
-      config.sourceFile.stripSuffix(".zip"),
-      config.targetBytes) with SequenceFileWriterFactory
+      config.targetDir, config.sourceFile, config.targetBytes) with SequenceFileWriterFactory
 
     convert(zipReader, rollingSequenceWriter)
   }
 
   private def createZipReader(config: Config): ZipReader = {
-    new ZipReader(config.sourceFile)
+    new ZipReader(config.sourceFile.file.getPath)
   }
 
   private def convert(zipReader: ZipReader, writer: SequenceWriter): Unit = {

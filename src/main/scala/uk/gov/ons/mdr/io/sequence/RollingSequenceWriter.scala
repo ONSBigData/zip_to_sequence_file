@@ -8,7 +8,9 @@ trait SequenceWriter extends java.io.Closeable {
   def write(fileData: FileData): Unit
 }
 
-class RollingSequenceWriter(fileName: String, byteThreshold: Long) extends SequenceWriter {
+class RollingSequenceWriter(sequenceOutputDir: SequenceOutputDir,
+                            zipInputFile: ZipInputFile,
+                            byteThreshold: Long) extends SequenceWriter {
 
   this: WriterFactory =>
 
@@ -17,7 +19,7 @@ class RollingSequenceWriter(fileName: String, byteThreshold: Long) extends Seque
   private var currentFileIndex = 1
   private var bytesWritten = 0L
 
-  def currentFileName(): String = f"${fileName.stripSuffix(".zip")}_$currentFileIndex%02d.seq"
+  def currentFileName(): String = f"${zipInputFile.file.getName.stripSuffix(".zip")}_$currentFileIndex%02d.seq"
 
   private var writer = createWriter(currentFileName())
 
@@ -28,7 +30,7 @@ class RollingSequenceWriter(fileName: String, byteThreshold: Long) extends Seque
     bytesWritten = 0L
 
     logger.info(s"Rolling file, new output ${currentFileName()}")
-    createWriter(currentFileName())
+    createWriter(sequenceOutputDir.file.getPath + "/" + currentFileName())
   }
 
   override def write(fileData: FileData): Unit = {
