@@ -1,5 +1,6 @@
 package uk.gov.ons.mdr.io.sequence
 
+import java.io.Closeable
 import java.nio.file.Path
 import java.util.zip.ZipFile
 
@@ -9,12 +10,13 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.collection.JavaConversions._
 
 /** Provides an iterator for a zip archive */
-class ZipReader(path: Path) {
+class ZipReader(path: Path) extends Closeable {
 
   def logger: Logger = LoggerFactory.getLogger(this.getClass)
 
+  val zipFile = new ZipFile(path.toFile)
+
   def iterator(): Iterator[FileData] = {
-    val zipFile = new ZipFile(path.toFile)
 
     val zipIterator = for (entry <- zipFile.entries) yield {
       val is = zipFile.getInputStream(entry)
@@ -32,4 +34,6 @@ class ZipReader(path: Path) {
 
     loggingIterator
   }
+
+  override def close(): Unit = zipFile.close()
 }

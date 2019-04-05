@@ -1,5 +1,7 @@
 package uk.gov.ons.mdr.io.sequence
 
+import java.io.Closeable
+
 import org.slf4j.{Logger, LoggerFactory}
 
 object ZipToSequence {
@@ -43,10 +45,15 @@ object ZipToSequence {
   }
 
   private def convert(zipReader: ZipReader, writer: SequenceWriter): Unit = {
+
     try {
       zipReader.iterator().foreach(writer.write)
     } finally {
-      writer.close()
+      try {
+        writer.close()
+      } finally {
+        zipReader.close()
+      }
     }
   }
 }
