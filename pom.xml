@@ -34,11 +34,6 @@
       <version>1.7.25</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.25</version>
-    </dependency>
-    <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
@@ -50,14 +45,18 @@
       <exclusions>
         <exclusion>
           <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>
       <artifactId>scalatest_${scala.compat.version}</artifactId>
-      <version>3.0.5</version>
+      <version>3.0.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
