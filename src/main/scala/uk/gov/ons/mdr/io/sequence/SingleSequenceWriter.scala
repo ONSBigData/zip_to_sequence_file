@@ -5,12 +5,13 @@ import java.nio.file.Paths
 
 import org.apache.hadoop.io.{BytesWritable, Text}
 
-class SingleSequenceWriter(sequenceOutputDir: SequenceOutputDir, zipInputFile: ZipInputFile) extends SequenceWriter {
+/** Writes to a single sequence file */
+class SingleSequenceWriter(sequenceOutputDir: SequenceOutputDir, seqFileNamePrefix: String) extends SequenceWriter {
 
   this: WriterFactory =>
 
   private[this] val dirString = sequenceOutputDir.path.toString
-  private[this] val outFileName = zipInputFile.path.getFileName.toString.stripSuffix(".zip") + ".seq"
+  private[this] val outFileName = s"$seqFileNamePrefix.seq"
 
   val outPath = Paths.get(dirString, outFileName)
 

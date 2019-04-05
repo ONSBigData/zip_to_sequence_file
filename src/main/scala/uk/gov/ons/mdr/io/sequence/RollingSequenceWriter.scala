@@ -10,8 +10,14 @@ trait SequenceWriter extends java.io.Closeable {
   def write(fileData: FileData): Unit
 }
 
+/** Writes [[org.apache.hadoop.io.SequenceFile]] in batches.
+  *
+  * @param sequenceOutputDir directory to save resulting files to.
+  * @param seqFileNamePrefix prefix to use for the sequence files.
+  * @param byteThreshold Content to store before rolling the file.
+  */
 class RollingSequenceWriter(sequenceOutputDir: SequenceOutputDir,
-                            zipInputFile: ZipInputFile,
+                            seqFileNamePrefix: String,
                             byteThreshold: Long) extends SequenceWriter {
 
   this: WriterFactory =>
@@ -20,15 +26,14 @@ class RollingSequenceWriter(sequenceOutputDir: SequenceOutputDir,
 
   private[this] var currentFileIndex = 1
   private[this] var bytesWritten = 0L
+  private[this] var writer = createWriter(currentPath())
 
   private[this] def currentPath(): Path = {
     val dir = sequenceOutputDir.path.toString
-    val fileName = zipInputFile.path.getFileName.toString.stripSuffix(".zip") + f"_$currentFileIndex%02d.seq"
+    val fileName = f"${seqFileNamePrefix}_$currentFileIndex%02d.seq"
 
     Paths.get(dir, fileName)
   }
-
-  private[this] var writer = createWriter(currentPath())
 
   private[this] def roll(): Writer = {
 

@@ -2,6 +2,7 @@ package uk.gov.ons.mdr.io.sequence
 
 import java.nio.file.{Path, Paths}
 
+/** Config (parsed from command line) */
 case class Config(
                    sourceFile: ZipInputFile = ZipInputFile(Paths.get("")),
                    targetDir: SequenceOutputDir = SequenceOutputDir(Paths.get(".")),

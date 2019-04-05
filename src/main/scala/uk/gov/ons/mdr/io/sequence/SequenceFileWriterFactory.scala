@@ -11,6 +11,7 @@ trait WriterFactory {
   def createWriter(path: Path): Writer
 }
 
+/** Factory for local [[org.apache.hadoop.io.SequenceFile.Writer]] objects.*/
 trait SequenceFileWriterFactory extends WriterFactory {
 
   def createWriter(path: Path): Writer = {

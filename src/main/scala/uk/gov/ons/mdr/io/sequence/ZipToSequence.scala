@@ -12,7 +12,9 @@ object ZipToSequence {
 
     var zipReader = createZipReader(config)
 
-    var sequenceWriter = new SingleSequenceWriter(config.targetDir, config.sourceFile)
+    val seqFileNamePrefix = getPrefix(config.sourceFile)
+
+    var sequenceWriter = new SingleSequenceWriter(config.targetDir, seqFileNamePrefix)
       with SequenceFileWriterFactory
 
     convert(zipReader, sequenceWriter)
@@ -24,10 +26,16 @@ object ZipToSequence {
 
     var zipReader = createZipReader(config)
 
+    val seqFileNamePrefix = getPrefix(config.sourceFile)
+
     var rollingSequenceWriter = new RollingSequenceWriter(
-      config.targetDir, config.sourceFile, config.targetBytes) with SequenceFileWriterFactory
+      config.targetDir, seqFileNamePrefix, config.targetBytes) with SequenceFileWriterFactory
 
     convert(zipReader, rollingSequenceWriter)
+  }
+
+  private def getPrefix(zipInputFile: ZipInputFile): String = {
+    zipInputFile.path.getFileName.toString.stripSuffix(".zip")
   }
 
   private def createZipReader(config: Config): ZipReader = {

@@ -8,6 +8,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConversions._
 
+/** Provides an iterator for a zip archive */
 class ZipReader(path: Path) {
 
   def logger: Logger = LoggerFactory.getLogger(this.getClass)

@@ -4,6 +4,13 @@ import java.nio.file.Paths
 
 import scopt.OptionParser
 
+/** The main entry point for the sequencer application.
+  *
+  * Parses command line arguments, then calls [[uk.gov.ons.mdr.io.sequence.ZipToSequence]].
+  *
+  * @example
+  * `java -jar sequencer.jar some_archive.zip`
+  */
 object Sequencer {
 
   private def parseMemoryString(memoryString: String): Long = {
