@@ -2,14 +2,12 @@ package uk.gov.ons.mdr.io.sequence
 
 import java.nio.file.{Path, Paths}
 
-import org.apache.hadoop.io.{BytesWritable, SequenceFile, Text, Writable}
 import org.apache.hadoop.io.SequenceFile.Writer
+import org.apache.hadoop.io.{SequenceFile, Writable}
 import org.mockito.Matchers
 import org.mockito.Mockito._
 import org.scalatest.FlatSpec
 import org.scalatest.mockito.MockitoSugar
-
-import org.scalatest.Assertions._
 
 import scala.collection.mutable
 

@@ -6,7 +6,7 @@ import java.nio.file.{Path, Paths}
 case class Config(
                    sourceFile: ZipInputFile = ZipInputFile(Paths.get("")),
                    targetDir: SequenceOutputDir = SequenceOutputDir(Paths.get(".")),
-                   singleFileMode: Boolean = false,
+                   singleFileMode: Boolean = true,
                    targetBytes: Long = Long.MaxValue
                  )
 
